@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS Box Model — Content-Box vs Border-Box</title>
+  <meta name="description" content="ვიზუალური პრეზენტაცია: როგორ ითვლის ბრაუზერი ელემენტის ზომებს CSS Box Model-ში.">
+
+  <!-- Georgian-ის მხარდამჭერი ფონტი (არჩევითი; ფონტის გარეშეც იმუშავებს) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@400;600;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ===== ნაწილი 1: შესავალი (Hero) ===== -->
+  <header class="hero">
+    <p class="hero__badge">CSS Cheat-Sheet დამწყებთათვის</p>
+    <h1 class="hero__title">CSS Box Model — როგორ ითვლის ბრაუზერი ზომებს?</h1>
+    <p class="hero__text">
+      ვებგვერდზე ყველა ელემენტი, მართკუთხა „ყუთია“, და სწორედ Box Model განსაზღვრავს, რამდენ ადგილს დაიკავებს ის ეკრანზე.
+      ამ მექანიზმის გაგების გარეშე ელემენტები მოულოდნელად „იბერება“ და განლაგება ირღვევა.
+    </p>
+  </header>
+
+  <main class="page">
+
+    <!-- ===== ნაწილი 2: Box Model-ის ანატომია ===== -->
+    <section class="section" id="anatomy">
+      <h2 class="section__title">Box Model-ის 4 შრე</h2>
+      <p class="section__lead">
+        ყოველი ელემენტი ოთხი ჩადგმული შრისგან შედგება — ზუსტად ისე, როგორც ბრაუზერის DevTools-ში ჩანს.
+      </p>
+
+      <div class="anatomy">
+        <!-- დიაგრამა: ერთმანეთში ჩასმული ბლოკები -->
+        <div class="box-model-demo" aria-label="Box Model-ის დიაგრამა">
+          <div class="layer layer--margin">
+            <span class="layer__label">Margin</span>
+            <div class="layer layer--border">
+              <span class="layer__label">Border</span>
+              <div class="layer layer--padding">
+                <span class="layer__label">Padding</span>
+                <div class="layer layer--content">Content</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- შრეების განმარტებები -->
+        <ul class="legend">
+          <li class="legend__item legend__item--content">
+            <h3>Content</h3>
+            <p>შიგთავსი — ტექსტი, სურათი ან სხვა ელემენტი.</p>
+          </li>
+          <li class="legend__item legend__item--padding">
+            <h3>Padding</h3>
+            <p>შიდა სივრცე კონტენტსა და საზღვარს შორის.</p>
+          </li>
+          <li class="legend__item legend__item--border">
+            <h3>Border</h3>
+            <p>ჩარჩო, რომელიც გარს ერტყმის padding-ს.</p>
+          </li>
+          <li class="legend__item legend__item--margin">
+            <h3>Margin</h3>
+            <p>გარე სივრცე, რომელიც ელემენტს მეზობლებისგან აშორებს.</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===== ნაწილი 3: დიდი დუელი ===== -->
+    <section class="section" id="duel">
+      <h2 class="section__title">დიდი დუელი: Content-Box vs Border-Box</h2>
+      <p class="section__lead">
+        ორივე ბარათს ერთნაირი პარამეტრები აქვს: <code>width: 300px</code>,
+        <code>padding: 20px</code>, <code>border: 5px solid</code>.
+        მაგრამ შეხედე, რა განსხვავებული შედეგია!
+      </p>
+
+      <div class="duel">
+        <!-- ბარათი A -->
+        <article class="card card--content-box">
+          <h3 class="card__title">ბარათი A — content-box</h3>
+          <p class="card__code"><code>box-sizing: content-box;</code></p>
+          <p>ეს ბრაუზერის დეფოლტ ქცევაა. <code>width</code> მხოლოდ კონტენტს ეხება,
+             padding და border კი ზემოდან ემატება.</p>
+          <p class="card__calc">რეალური სიგანე: <strong>350px</strong><br>
+            300 + (20 × 2) + (5 × 2) = 350</p>
+          <p class="card__formula">საბოლოო ზომა = Width + Padding + Border</p>
+        </article>
+
+        <!-- ბარათი B -->
+        <article class="card card--border-box">
+          <h3 class="card__title">ბარათი B — border-box</h3>
+          <p class="card__code"><code>box-sizing: border-box;</code></p>
+          <p>აქ <code>width</code> მოიცავს ყველაფერს: padding და border
+             „ჩაიფუთება“ მითითებული სიგანის შიგნით.</p>
+          <p class="card__calc">რეალური სიგანე: <strong>300px</strong><br>
+            padding და border უკვე ამ 300-შია</p>
+          <p class="card__formula">საბოლოო ზომა = Width</p>
+        </article>
+      </div>
+
+      <!-- ვიზუალური სახაზავი: ორი ბარი, რომლებიც რეალურ სიგანეს აჩვენებს -->
+      <div class="rulers" aria-hidden="true">
+        <div class="ruler ruler--a">A: 350px</div>
+        <div class="ruler ruler--b">B: 300px</div>
+      </div>
+    </section>
+
+    <!-- ===== ნაწილი 4: პრაქტიკული პრობლემა ===== -->
+    <section class="section" id="broken-layout">
+      <h2 class="section__title">რატომ ტყდება განლაგება?</h2>
+      <p class="section__lead">
+        ორი სვეტი, თითოეული <code>width: 50%</code>, <code>padding: 20px</code> და
+        <code>border: 2px solid</code>-ით. იდეაში ერთ ხაზზე უნდა ეტეოდეს, მაგრამ...
+      </p>
+
+      <h3 class="case-title case-title--bad">ქეისი 1: content-box — Broken Layout</h3>
+      <div class="columns columns--content-box">
+        <div class="column column--content-box">
+          <strong>სვეტი 1</strong>
+          <p>50% + 40px + 4px</p>
+        </div>
+        <div class="column column--content-box">
+          <strong>სვეტი 2</strong>
+          <p>ჯამი 100%-ზე მეტია, ამიტომ ვარდება ქვემოთ!</p>
+        </div>
+      </div>
+
+      <h3 class="case-title case-title--good">ქეისი 2: border-box — სრულყოფილი განლაგება</h3>
+      <div class="columns columns--border-box">
+        <div class="column column--border-box">
+          <strong>სვეტი 1</strong>
+          <p>ზუსტად 50%</p>
+        </div>
+        <div class="column column--border-box">
+          <strong>სვეტი 2</strong>
+          <p>ზუსტად 50% — მშვიდად ეტევიან ერთ ხაზზე.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== ნაწილი 5: შეჯამება ===== -->
+    <section class="section summary" id="summary">
+      <h2 class="section__title">ოქროს წესი (Best Practice)</h2>
+      <p class="section__lead">თითქმის ყველა პროექტი ამ რამდენიმე ხაზით იწყება:</p>
+
+<pre class="code-block"><code>*, *::before, *::after {
+  box-sizing: border-box;
+}</code></pre>
+
+      <p class="summary__conclusion">
+        ეს წესი ყველა ელემენტზე ზომების გამოთვლას პროგნოზირებადს ხდის:
+        რაც სიგანედ დაწერე, ზუსტად იმდენს დაიკავებს — padding-ისა და border-ის დამატებისას ხელით გადათვლა აღარ გჭირდება.
+      </p>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>შექმნილია სუფთა HTML და CSS-ით</p>
+  </footer>
+
+</body>
+</html>
